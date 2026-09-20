@@ -71,4 +71,21 @@ class TriageTest {
         String report = Main.json(new Triage(root).execute("summarize_recording", Map.of("file", "empty.jfr")));
         assertTrue(report.contains("No observed event is not proof"));
     }
+
+    @jdk.jfr.Name("triage.test.Noise")
+    static class Noise extends jdk.jfr.Event {}
+
+    @Test
+    void contentionProjectionPreservesPartialAnalysisStatus() throws Exception {
+        try (var recording = new jdk.jfr.Recording()) {
+            recording.enable(Noise.class).withoutStackTrace();
+            recording.start();
+            for (int i = 0; i < 100001; i++) new Noise().commit();
+            recording.stop();
+            recording.dump(root.resolve("bounded.jfr"));
+        }
+        var report = (Map<?, ?>) new Triage(root).execute("top_contention_sites", Map.of("file", "bounded.jfr"));
+        assertEquals(true, report.get("truncated"));
+        assertTrue(((Number) report.get("eventsRead")).intValue() <= 100000);
+    }
 }

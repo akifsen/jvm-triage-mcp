@@ -51,3 +51,7 @@ Two admitted operations, no wait queue. Per file: 32 MiB, 100,000 events, three-
 | Actual filesystem link cannot escape root | TriageIT | same |
 
 See [verification](docs/verification.md) for execution results and [ADR](docs/adr/001-jfr-evidence.md) for design choices. MIT source; JDK, MCP SDK and shaded dependencies retain their own licenses/notices. CI is prepared, not claimed passing on GitHub. No company recordings, published release, production SLA or causal AI diagnosis is included.
+
+## Review corrections — 2026-09-20
+
+The contention-only tool now includes truncated and eventsRead, preserving machine-readable evidence that the analysis hit a budget.

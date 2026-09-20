@@ -39,6 +39,10 @@ public final class Triage {
                             report.get("observedInterval"),
                             "sites",
                             report.get("contentionSites"),
+                            "truncated",
+                            report.get("truncated"),
+                            "eventsRead",
+                            report.get("eventsRead"),
                             "warnings",
                             report.get("warnings"));
                 }
